@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/</title>
+   <script>
+      // @link         https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/
+      // @author       huidt
+
+
+      // var findRepeatNumber = function (nums) {
+      //    let obj = {};
+      //    for (let index = 0; index < nums.length; index++) {
+      //       if (obj[nums[index].toString()] == undefined) {
+      //          obj[nums[index]] = "any";
+      //       } else {
+      //          return nums[index];
+      //       }
+      //    }
+      // };
+
+
+      // var findRepeatNumber = function (nums) {
+      //    let s = new Set();
+      //    for (var i in nums) {
+      //       var curLenth = s.size;
+      //       s.add(nums[i]);
+      //       if (s.size == curLenth)
+      //          return nums[i];
+      //    }
+      // };
+
+
+      // // 这种写法不容易理解，但是我看好多Java解法都是这个
+      // var findRepeatNumber = function (nums) {
+      //    for (var i = 0; i < nums.length; i++) {
+      //       while (i != nums[i] && nums[nums[i]] != nums[i]) { // 将对应的数字，放入对应的坑位；并且坑位上也不是正确的数字
+      //          // console.log('i:' + i);
+      //          // console.log('nums[i]:' + nums[i]);
+      //          // console.log('nums[nums[i]]:' + nums[nums[i]]);
+      //          var tmp = nums[nums[i]];
+      //          nums[nums[i]] = nums[i];
+      //          nums[i] = tmp;
+      //          // console.log(arr);
+      //       }
+      //       if (i !== nums[i] && nums[nums[i]] == nums[i]) {
+      //          // console.log("此处结束");
+      //          // console.log('nums[i]:' + nums[i]);
+      //          // console.log('nums[nums[i]]:' + nums[nums[i]]);
+      //          return nums[i];
+      //       }
+      //    }
+      // };
+
+
+      var findRepeatNumber = function (nums) {
+         let temp;
+         for (let i = 0; i < nums.length; i++) {
+            while (nums[i] != i) {
+               console.log('i:' + i);
+               console.log("置换前:" + arr);
+               console.log('nums[i]:' + nums[i]);
+               console.log('nums[nums[i]]:' + nums[nums[i]]);
+               if (nums[i] == nums[nums[i]]) {
+                  return nums[i];
+               }
+               temp = nums[i];
+               nums[i] = nums[temp];
+               nums[temp] = temp;
+            }
+         }
+         return -1;
+      };
+
+
+      // JavaScript数组乱序
+      function chaosArray(nums) {
+         nums.sort(function (a, b) {
+            return Math.random() - 0.5;
+         });
+         return nums;
+      }
+
+      let arr = [0, 1, 2, 3, 4, 11, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+      arr = chaosArray(arr);
+      console.log(findRepeatNumber(arr));
+
+   </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
