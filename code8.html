@@ -4,94 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/</title>
+    <title>剑指 Offer 09. 用两个栈实现队列</title>
 </head>
 
 <body>
-
+    <a href="https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/">剑指 Offer 09. 用两个栈实现队列</a>
 </body>
 <script>
     // 用两个栈实现队列？
     // 首先想到两个栈方向相反
-    // 自己还得先实现栈
+    // 自己还得先实现栈？
+    // 大可不必，JS中的数组其实已经有了栈的特性，它的头和尾各有两种添加和删除元素的方法
 
-    function Stack() {
-        this.items = [];
-        // 1.push()：入栈
-        Stack.prototype.push = function (element) {
-            this.items.push(element)
-        }
+    // 我的解，和执行用时最少的解几乎一样
+    // var CQueue = function () {
+    //     this.queue1 = [];
+    // };
+    // CQueue.prototype.appendTail = function (value) {
+    //     this.queue1.push(value);
+    // };
+    // CQueue.prototype.deleteHead = function () {
+    //     return this.queue1.length == 0 ? -1 : this.queue1.shift();
+    // };
 
-        // 2.pop():从栈中取出元素
-        Stack.prototype.pop = function () {
-            return this.items.pop();
-        }
-
-        // 3.peek():查看一下栈顶元素
-        Stack.prototype.peek = function () {
-            return this.items[this.items.length - 1]
-        }
-
-        // 4.isEmpty():判断栈是否为空
-        Stack.prototype.isEmpty = function () {
-            return this.items.length == 0
-        }
-    }
+    // 内存最少
     var CQueue = function () {
-        // function CQueue() {
-        this.queue1 = new Stack();
-        this.queue2 = new Stack();
+        this.stack1 = []
+        this.stack2 = []
     };
-
-    /** 
-     * @param {number} value
-     * @return {void}
-     */
     CQueue.prototype.appendTail = function (value) {
-        this.queue1.push(value);
+        this.stack1.push(value)
     };
-
-    /**
-     * @return {number}
-     */
     CQueue.prototype.deleteHead = function () {
-        // 转移数据至queue2
-        while (!this.queue1.isEmpty()) {
-            this.queue2.push(this.queue1.pop())
+        if (!this.stack1.length) return -1
+        while (this.stack1.length) {
+            this.stack2.push(this.stack1.pop())
         }
-        // 开始deleteHead
-        let temp = this.queue2.pop();
-        if (this.queue2.isEmpty()) {
-            return -1;
-        } else {
-            while (!this.queue2.isEmpty()) {
-                this.queue1.push(this.queue2.pop());
-            }
-            return temp;
+        let top = this.stack2.pop()
+        while (this.stack2.length) {
+            this.stack1.push(this.stack2.pop())
         }
-
+        return top
     };
-
-    // ["CQueue","deleteHead","appendTail","appendTail","deleteHead","deleteHead"]
-    // [[],[],[5],[2],[],[]]
-
-    // ["CQueue","appendTail","deleteHead","deleteHead","deleteHead"]
-    // [[],[3],[],[],[]]
-    // [null,null,3,-1,-1]
-
-    let queue = new CQueue();
-    queue.appendTail();
-    queue.appendTail();
-    queue.appendTail();
-    queue.deleteHead();
-
-
-    /**
-     * Your CQueue object will be instantiated and called as such:
-     * var obj = new CQueue()
-     * obj.appendTail(value)
-     * var param_2 = obj.deleteHead()
-     */
 
 </script>
 
