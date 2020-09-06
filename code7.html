@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>剑指 Offer 07. 重建二叉树</title>
+</head>
+
+<body>
+    <a href="https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/">剑指 Offer 07. 重建二叉树</a>
+</body>
+<script>
+    // 二叉树结构
+    function TreeNode(val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+
+    // 我的解
+    // var buildTree = function (pre, ino) {
+    //     if (pre.length == 0 || ino.length == 0) {
+    //         return null;
+    //     };
+    //     let root = pre[0];
+    //     let index = ino.indexOf(root);
+    //     let leftTree = ino.slice(0, index);
+    //     let RightTree = ino.slice(index + 1);
+    //     return {
+    //         // 当前节点
+    //         val: pre[0],
+    //         //递归左右子树的前序，中序
+    //         left: buildTree(pre.slice(1, index + 1), leftTree),
+    //         right: buildTree(pre.slice(index + 1), RightTree)
+    //     };
+    // };
+
+
+
+    // var buildTree = function (preorder, inorder) {
+    //     if (!preorder.length || !inorder.length) {
+    //         return null;
+    //     }
+    //     const rootVal = preorder[0];
+    //     const node = new TreeNode(rootVal);
+    //     let i = 0; // i有两个含义，一个是根节点在中序遍历结果中的下标，另一个是当前左子树的节点个数
+    //     for (; i < inorder.length; ++i) {
+    //         if (inorder[i] === rootVal) {
+    //             break;
+    //         }
+    //     }
+    //     node.left = buildTree(preorder.slice(1, i + 1), inorder.slice(0, i));
+    //     node.right = buildTree(preorder.slice(i + 1), inorder.slice(i + 1));
+    //     return node;
+    // };
+
+    // 用时最少
+    // var build = function (preorder, preorderStart, preorderEnd, inorderStart, map) {
+    //     if (preorderStart > preorderEnd) {
+    //         return null
+    //     }
+    //     let val = preorder[preorderStart];
+    //     let root = new TreeNode(val);
+    //     let inIndex = map.get(val);
+    //     let leftTreeSize = inIndex - inorderStart;
+    //     root.left = build(preorder, preorderStart + 1, preorderStart + leftTreeSize, inorderStart, map);
+    //     root.right = build(preorder, preorderStart + leftTreeSize + 1, preorderEnd, inorderStart + leftTreeSize + 1,
+    //         map);
+    //     return root;
+    // }
+    // var buildTree = function (preorder, inorder) {
+    //     if (!preorder.length || !inorder.length) {
+    //         return null;
+    //     }
+    //     let map = new Map();
+    //     let len = inorder.length;
+    //     for (let i = 0; i < len; i++) {
+    //         map.set(inorder[i], i);
+    //     }
+    //     let root = build(preorder, 0, len - 1, 0, map)
+    //     return root;
+    // };
+
+    // 内存最少
+    var buildTree = function (preorder, inorder) {
+        // 迭代法
+        if (!preorder.length) return null
+        // 创建根节点
+        let root = new TreeNode(preorder[0])
+        let len = preorder.length
+        let stack = [root] // 使用数组模拟栈，根节点入栈
+        let inorderIndex = 0;
+        for (let i = 1; i < len; i++) {
+            let preorderVal = preorder[i];
+            let node = stack[stack.length - 1]
+            if (node.val !== inorder[inorderIndex]) {
+                node.left = new TreeNode(preorderVal);
+                stack.push(node.left);
+            } else {
+                while (stack.length !== 0 && stack[stack.length - 1].val == inorder[inorderIndex]) {
+                    node = stack.pop();
+                    inorderIndex++;
+                }
+                node.right = new TreeNode(preorderVal);
+                stack.push(node.right);
+            }
+        }
+        return root
+    };
+
+
+
+
+    let pre = [3, 9, 8, 5, 20, 15, 7];
+    // [3, 9, 20, 15, 7];
+    let aft = [8, 9, 5, 3, 15, 20, 7];
+    // [9, 3, 15, 20, 7];
+    console.log(buildTree(pre, aft));
+
+</script>
+
+</html>

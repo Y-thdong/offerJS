@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>912. 排序数组</title>
+</head>
+
+<body>
+    <a href="https://leetcode-cn.com/problems/sort-an-array/">912. 排序数组</a>
+</body>
+<script>
+    // var sortArray1 = function (nums) {
+    //     return nums.sort(function (a, b) {
+    //         // 复杂写法
+    //         // if (a > b) return 1;
+    //         // else return -1;
+    //         // 简洁写法
+    //         return a - b;
+    //     })
+    // };
+    // var num = [-2, 3, -5];
+    // console.log(sortArray1(num));
+    // 思路：sort(),但是sort并不严谨，它会转码成字符串，
+    // 然后比较其在unicode中的值，
+    // 但是sort给出了接口让我们可以自己设置排序规则
+    // function返回值大于1则会
+    // sort详见 https://juejin.im/post/5e6df79df265da572d12d690#heading-11
+
+
+    // var sortArray2 = function (nums) {
+    //    for (var i = 0; i < nums.length; i++) {
+    //       for (var j = i + 1; j < nums.length; j++) {
+    //          if (nums[i] > nums[j]) {
+    //             // a = [b, b = a][0]; // 少见的变量值互换方式
+    //             nums[i] = [nums[j], nums[j] = nums[i]][0];
+    //          }
+    //       }
+    //    }
+    //    return (nums);
+    // };
+
+
+    // // 快速排序
+    // var sortArray3 = function (nums) {
+    //    // https://blog.csdn.net/qq_42842786/article/details/104237401
+    //    // JS函数都是按值来传递到的，所以nums是引用类型值，所以传入的是地址值
+    //    // 首先需要有一个基准数，而且基准数在变，所以设一个变量存储基准，还有左右两个哨兵
+    //    function quicksort(left, right) //传入两个哨兵
+    //    {
+    //       // left = 0 right = 2
+    //       var key = nums[left], //定义基准数key
+    //          i = left, //0
+    //          j = right, //2
+    //          t;
+    //       // console.log("key:" + key);
+    //       if (left > right) return; //当传入哨兵错误会结束当前函数
+    //       console.log("kezai ");
+    //       while (i != j) //哨兵未相遇才会执行循环
+    //       {
+    //          while (nums[j] >= key && i < j)
+    //             j--; //条件成立代表哨兵j还未找到小于基准数的值，故j--
+    //          while (nums[i] <= key && i < j)
+    //             i++; //条件成立代表哨兵i还未找到大于基准数的值，故i++
+    //          if (i < j) //哨兵定位后交换数值
+    //          {
+    //             nums[i] = [nums[j], nums[j] = nums[i]][0];
+    //             console.log("此时的nums：" + nums);
+    //          }
+    //       }
+    //       // 4, 3, -2, 3, 2, -5, 9, 5
+    //       //              i → j ←j
+    //       // i、 j相遇
+    //       console.log("相遇时i=j=" + i)
+    //       console.log("left=" + left);
+    //       nums[left] = [nums[i], nums[i] = nums[left]][0]; //交换基准数与哨兵的值
+    //       console.log("完成一次相遇：" + nums);
+    //       quicksort(left, i - 1);
+    //       quicksort(i + 1, right);
+    //    }
+    //    quicksort(0, nums.length - 1);
+    //    return nums;
+    // };
+
+
+    // var num = [4, 5, -2, 3, 9, -5, 2, 3];
+    // console.log("最初的num ：" + num);
+    // console.log(sortArray3(num));
+
+</script>
+
+</html>
