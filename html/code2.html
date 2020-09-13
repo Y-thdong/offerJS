@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>912. 排序数组</title>
+</head>
+
+<body>
+    <a href="https://leetcode-cn.com/problems/sort-an-array/">912. 排序数组</a>
+</body>
+<script>
+    // var sortArray = function (nums) {
+    //     return nums.sort(function (a, b) {
+    //         // 复杂写法
+    //         // if (a > b) return 1;
+    //         // else return -1;
+    //         // 简洁写法
+    //         return a - b;
+    //     })
+    // };
+    // var num = [-2, 3, -5];
+    // console.log(sortArray1(num));
+    // 思路：sort(),但是sort并不严谨，它会转码成字符串，
+    // 然后比较其在unicode中的值，
+    // 但是sort给出了接口让我们可以自己设置排序规则
+    // function返回值大于1则会
+    // sort详见 https://juejin.im/post/5e6df79df265da572d12d690#heading-11
+
+
+    // var sortArray = function (nums) {
+    //     for (var i = 0; i < nums.length; i++) {
+    //         for (var j = i + 1; j < nums.length; j++) {
+    //             if (nums[i] > nums[j]) {
+    //                 // a = [b, b = a][0]; // 少见的变量值互换方式
+    //                 nums[i] = [nums[j], nums[j] = nums[i]][0];
+    //             }
+    //         }
+    //     }
+    //     return (nums);
+    // };
+
+
+    // // 快速排序
+    // var sortArray = function (nums) {
+    //     // https://blog.csdn.net/qq_42842786/article/details/104237401
+    //     // JS函数都是按值来传递到的，所以nums是引用类型值，所以传入的是地址值
+    //     // 首先需要有一个基准数，而且基准数在变，所以设一个变量存储基准，还有左右两个哨兵
+    //     function quicksort(left, right) //传入两个哨兵
+    //     {
+    //         // left = 0 right = 2
+    //         var key = nums[left], //定义基准数key
+    //             i = left, //0
+    //             j = right, //2
+    //             t;
+    //         // console.log("key:" + key);
+    //         if (left > right) return; //当传入哨兵错误会结束当前函数
+    //         console.log("kezai ");
+    //         while (i != j) //哨兵未相遇才会执行循环
+    //         {
+    //             while (nums[j] >= key && i < j)
+    //                 j--; //条件成立代表哨兵j还未找到小于基准数的值，故j--
+    //             while (nums[i] <= key && i < j)
+    //                 i++; //条件成立代表哨兵i还未找到大于基准数的值，故i++
+    //             if (i < j) //哨兵定位后交换数值
+    //             {
+    //                 nums[i] = [nums[j], nums[j] = nums[i]][0];
+    //                 console.log("此时的nums：" + nums);
+    //             }
+    //         }
+    //         // 4, 3, -2, 3, 2, -5, 9, 5
+    //         //              i → j ←j
+    //         // i、 j相遇
+    //         console.log("相遇时i=j=" + i)
+    //         console.log("left=" + left);
+    //         nums[left] = [nums[i], nums[i] = nums[left]][0]; //交换基准数与哨兵的值
+    //         console.log("完成一次相遇：" + nums);
+    //         quicksort(left, i - 1);
+    //         quicksort(i + 1, right);
+    //     }
+    //     quicksort(0, nums.length - 1);
+    //     return nums;
+    // };
+
+
+    // 用时最少
+    // var sortArray = function (arr) {
+    //     return mergeSort(arr, 0, arr.length - 1)
+    // }
+
+    // function mergeSort(arr, start, end) {
+    //     if (start >= end) return [arr[start]]
+    //     let mid = (start + end) / 2 | 0
+    //     return merge(mergeSort(arr, start, mid), mergeSort(arr, mid + 1, end))
+    // }
+
+    // function merge(left, right) {
+    //     let i = 0,
+    //         j = 0,
+    //         len1 = left.length,
+    //         len2 = right.length,
+    //         res = []
+    //     while (i < len1 && j < len2) {
+    //         if (left[i] <= right[j]) {
+    //             res.push(left[i++])
+    //         } else {
+    //             res.push(right[j++])
+    //         }
+    //     }
+    //     while (i < len1) res.push(left[i++])
+    //     while (j < len2) res.push(right[j++])
+    //     return res
+    // }
+
+
+    // 内存最少 
+    // var sortArray = function (nums) {
+    //     for (let i = 0; i < nums.length - 1; i++) {
+    //         for (let j = 0; j < nums.length - i - 1; j++) {
+    //             if (nums[j] > nums[j + 1]) {
+    //                 // nums[j] ^= nums[j + 1];
+    //                 // nums[j + 1] ^= nums[j];
+    //                 // nums[j] ^= nums[j + 1];
+
+    //                 // nums[j] = (nums[j + 1] ^= nums[j] ^= nums[j + 1]) ^ nums[j];
+
+    //                 // [nums[j], nums[j + 1]] = [nums[j + 1], nums[j]];
+
+    //                 nums[j] = [nums[j + 1], nums[j + 1] = nums[j]][0];
+    //                 // 以上为四种交换两个变量值的方法
+    //             }
+    //         }
+    //     }
+    //     return nums;
+    // };
+
+
+
+
+    /**解法7：快速排序
+     * 思路：
+     * 1.选中一个分割点split
+     * 2.定义左右双指针，一次遍历将分割值小的置于左侧，比分割值大的置于右侧
+     * 2.1 左右指针不相遇时 swap(left, right)
+     * 2.2 左右指针相遇时，swap(start, left)并且返回left
+     * 3.分治递归式为左右两侧序列***
+     * 性能：128ms 40.8MB
+     * 时间复杂度：O(nlogn)
+     */
+    // 定义一个***函数
+    function quickSort(arr, left, right) {
+        if (left < right) {
+            let splitIndex = findSplitIndex(arr, left, right);
+            quickSort(arr, left, splitIndex - 1);
+            quickSort(arr, splitIndex + 1, right);
+        }
+    }
+    // 查找分割值索引
+    function findSplitIndex(arr, left, right) {
+        const start = left;
+        const splitValue = arr[start];
+        while (left < right) {
+            while (left < right && arr[right] > splitValue) {
+                right--;
+            }
+            while (left < right && arr[left] <= splitValue) {
+                left++;
+            }
+            swap(arr, left, right);
+        }
+        swap(arr, start, left);
+        return left;
+    }
+    // 交换位置：左右交换、分割点与left交换
+    function swap(arr, i, j) {
+        const temp = arr[j];
+        arr[j] = arr[i];
+        arr[i] = temp;
+    }
+
+
+    var num = [4, 5, -2, 3, 9, -5, 2, 3];
+    console.log("排序前：" + num);
+    quickSort(num, 0, num.length - 1);
+    console.log("排序后：" + num);
+
+</script>
+
+</html>

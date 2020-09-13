@@ -1,0 +1,136 @@
+### [剑指 Offer 06\. 从尾到头打印链表](https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/)
+
+Difficulty: **简单**
+
+
+输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。
+
+**示例 1：**
+
+```
+输入：head = [1,3,2]
+输出：[2,3,1]
+```
+
+**限制：**
+
+`0 <= 链表长度 <= 10000`
+
+
+#### Solution
+
+Language: **JavaScript**
+
+这里要先将数组倒序的四种方法，reverse性能较差，所以手写
+```JavaScript
+    function temporarySwap(array) {
+        var left = null;
+        var right = null;
+        var length = array.length;
+        for (left = 0, right = length - 1; left < right; left += 1, right -= 1) {
+            var temporary = array[left];
+            array[left] = array[right];
+            array[right] = temporary;
+        }
+        return array;
+    }
+
+    // 此方法性能极好
+    function temporarySwapHalf(array) {
+        var left = null;
+        var right = null;
+        var length = array.length;
+        for (left = 0; left < length / 2; left += 1) {
+            right = length - 1 - left;
+            var temporary = array[left];
+            array[left] = array[right];
+            array[right] = temporary;
+        }
+        return array;
+    }
+
+    // 使用XOR来交换两个数据的值，第一次见
+    function xorSwap(array) {
+        var i = null;
+        var r = null;
+        var length = array.length;
+        for (i = 0, r = length - 1; i < r; i += 1, r -= 1) {
+            var left = array[i];
+            var right = array[r];
+            // 以下是交换两个值的几种方法
+            // ①
+            left ^= right;
+            right ^= left;
+            left ^= right;
+            // 还可以压缩为一句
+            // right = (left ^= right ^= left) ^ right;
+            // ②
+            // right = [left, left = right][0];
+            // ③
+            // 数组解构
+            // [right, left] = [left, right];
+
+            array[i] = left;
+            array[r] = right;
+        }
+        return array;
+    }
+
+    function xorSwapHalf(array) {
+        var i = null;
+        var r = null;
+        var length = array.length;
+        for (i = 0; i < length / 2; i += 1) {
+            r = length - 1 - i;
+            // ①
+            // [array[i], array[r]] = [array[r], array[i]];
+            // ②
+            // 这种情况之所以这么写是为了提防数组长度为奇数
+            r != i ? (array[i] = (array[r] ^= array[i] ^= array[r]) ^ array[i]) : null;
+            // ③
+            // array[i] = [array[r], array[r] = array[i]][0];
+        }
+        return array;
+    }
+    // 以上为reverse数组的4中方法
+```
+我的解
+```JavaScript
+    var reversePrint = function (head) {
+        let arr = [];
+        for (let i = 0; head != null; i++) {
+            arr[i] = head.val;
+            head = head.next;
+        }
+        return xorSwapHalf(arr);
+    };
+```
+用时最少解
+```JavaScript
+    var reversePrint = function (head) {
+        // 在JS中数组其实和栈很像，因为数组本身就具有了头尾共四种的操作方法
+        let stack = [];
+        let arr = [];
+        while (head) {
+            stack.push(head.val);
+            head = head.next;
+        }
+        while (stack.length) {
+            arr.push(stack.pop());
+        }
+        return arr;
+    };
+```
+内存最少解
+```javascript
+    var reversePrint = function (head) {
+        let nums = [];
+        let node = head;
+        while (node !== null) {
+            // 内置的unshift性能虽不佳，但是却节约了内存
+            nums.unshift(node.val);
+            node = node.next;
+        }
+        return nums;
+    };
+```
