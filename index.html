@@ -4,13 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="https://ythdong.gitee.io/blog_image/%E7%8E%A9%E8%B6%A3/huidt.jpg">
-    <title>offerJS</title>
 </head>
-<script src="index.js"></script>
 
 <body>
+    <script>
+        let arr = [0, 1, 2, 4, 8, 10, 11, 12, 13, 16, 17, 18, 18];
 
+        function chaosArray(nums) {
+            nums.sort(function (a, b) {
+                return Math.random() - 0.5;
+            });
+            return nums;
+        }
+        chaosArray(arr);
+        console.log(arr);
+
+        function sortArray(nums) {
+            function quicksort(left, right) //传入两个哨兵
+            {
+                var key = nums[left], //定义基准数key
+                    i = left, //0
+                    j = right, //2
+                    t;
+                if (left > right) return; //当传入哨兵错误会结束当前函数
+                while (i != j) //哨兵还未相遇继续执行循环
+                {
+                    while (nums[j] >= key && i < j)
+                        j--; //条件成立代表哨兵j还未找到小于基准数的值，故j--
+                    while (nums[i] <= key && i < j)
+                        i++; //条件成立代表哨兵i还未找到大于基准数的值，故i++
+                    if (i < j) //哨兵定位后交换数值
+                    {
+                        nums[i] = [nums[j], nums[j] = nums[i]][0];
+                    }
+                }
+                nums[left] = [nums[i], nums[i] = nums[left]][0]; //此时i==j哨兵相遇，基准值应该挪到中间，所以交换基准数与哨兵的值
+                quicksort(left, i - 1);
+                quicksort(i + 1, right);
+            }
+            quicksort(0, nums.length - 1);
+            return nums;
+        }
+        console.log(sortArray(arr));
+
+    </script>
 </body>
 
 </html>
